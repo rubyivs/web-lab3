@@ -129,4 +129,65 @@ program
     }
   });
 
+// шукає гравця за кодом у всіх командах 
+function getPlayerName(data, playerId) 
+{
+  for (const team of data.teams) 
+    {
+    for (const player of team.players) {
+      if (player.playerId === playerId) {
+        return `${player.name} (${team.name})`;
+      }
+    }
+  }
+  return playerId;
+}
+
+//  один рядок з описом матчу
+function printMatch(data, m) 
+{
+  const home = getTeamName(data, m.homeTeamId);
+  const away = getTeamName(data, m.awayTeamId);
+  let line = `${m.match} | ${m.date} | ${m.venue} | ${home} ${m.score.home}:${m.score.away} ${away}`;
+  if (m.extraTime !== null) 
+  {
+    line = line + ` (додатковий час: ${m.extraTime} хв)`;
+  }
+  console.log(line);
+}
+
+//  відбір матчів 
+program
+  .command('matches')
+  .description('показати матчі з відбором за командою та/або датою')
+  .option('-t, --team <team>', 'лише матчі цієї команди (назва або код)')
+  .option('-d, --date <date>', 'лише матчі за цією датою, формат ДД.ММ.РРРР')
+  .option('-e, --events', 'додатково показати події матчів')
+  .action((options) => {
+    const data = readData();
+    let teamId = null;
+    if (options.team) {
+      const team = findTeam(data, options.team);
+      teamId = team.teamId;
+    }
+    for (const m of data.matches) {
+      let suitable = true;
+      if (teamId !== null && m.homeTeamId !== teamId && m.awayTeamId !== teamId) {
+        suitable = false;
+      }
+      if (options.date && m.date !== options.date) {
+        suitable = false;
+      }
+      if (suitable) {
+        printMatch(data, m);
+        if (options.events) 
+        {
+          for (const e of m.events) {
+            console.log(`    ${e.minute}' ${e.type} — ${getPlayerName(data, e.playerId)}`);
+          }
+        }
+      }
+    }
+  });  
+
 program.parse();
