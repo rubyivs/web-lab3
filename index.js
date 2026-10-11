@@ -57,4 +57,37 @@ program
     console.log(JSON.stringify(match, null, 2));
   });
 
+
+function getField(object, path) {
+  let current = object;
+  for (const key of path.split('.')) {
+    if (current === null || current === undefined) {
+      return undefined;
+    }
+    current = current[key];
+  }
+  return current;
+}
+
+//  значення окремого поля матчу
+program
+  .command('field')
+  .description('показати значення окремого поля матчу')
+  .argument('<number>', 'номер матчу у списку ')
+  .argument('<path>', 'шлях до поля, наприклад: date, score.home, events.0.type')
+  .action((number, path) => {
+    const data = readData();
+    const match = data.matches[Number(number) - 1];
+    const value = getField(match, path);
+    if (value === undefined) {
+      console.log('Такого поля немає');
+    } else if (value === null) {
+      console.log('null');
+    } else if (typeof value === 'object') {
+      console.log(JSON.stringify(value, null, 2));
+    } else {
+      console.log(value);
+    }
+  }); 
+
 program.parse();
