@@ -190,4 +190,37 @@ program
     }
   });  
 
+// за кількістю голів
+program
+  .command('scorers')
+  .description('показати список бомбардирів за кількістю голів')
+  .option('-t, --top <n>', 'показати лише n найкращих бомбардирів')
+  .action((options) => {
+    const data = readData();
+    const goals = {};
+    for (const m of data.matches) {
+      for (const e of m.events) {
+        if (e.type === 'goal') {
+          if (goals[e.playerId] === undefined) {
+            goals[e.playerId] = 0;
+          }
+          goals[e.playerId] = goals[e.playerId] + 1;
+        }
+      }
+    }
+    // Перекладаємо словник у масив, щоб його можна було відсортувати
+    const list = [];
+    for (const playerId in goals) {
+      list.push({ name: getPlayerName(data, playerId), count: goals[playerId] });
+    }
+    list.sort((a, b) => b.count - a.count);
+    let top = list;
+    if (options.top) {
+      top = list.slice(0, Number(options.top));
+    }
+    for (let i = 0; i < top.length; i++) {
+      console.log(`${i + 1}. ${top[i].name} — голів: ${top[i].count}`);
+    }
+  });
+
 program.parse();
