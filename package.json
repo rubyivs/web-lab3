@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/rubyivs/web-lab3/issues"
   },
-  "homepage": "https://github.com/rubyivs/web-lab3#readme"
+  "homepage": "https://github.com/rubyivs/web-lab3#readme",
+  "dependencies": {
+    "commander": "^15.0.0"
+  }
 }
