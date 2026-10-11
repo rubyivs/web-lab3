@@ -90,4 +90,43 @@ program
     }
   }); 
 
+// Шукає команду за назвою або teamId 
+function findTeam(data, text) {
+  for (const team of data.teams) {
+    if (team.name.toLowerCase() === text.toLowerCase() || team.teamId.toLowerCase() === text.toLowerCase()) {
+      return team;
+    }
+  }
+  return null;
+}
+
+//  склад обраної команди, яяку вибрали
+program
+  .command('squad')
+  .description('показати склад обраної команди')
+  .argument('<team>', 'назва або код команди, наприклад: Spain або t1')
+  .option('-p, --position <position>', 'лише гравці з цією позицією (goalkeeper, midfielder, forward)')
+  .option('-c, --captain', 'лише капітан команди')
+  .action((teamText, options) => {
+    const data = readData();
+    const team = findTeam(data, teamText);
+    console.log(`Склад команди ${team.name}:`);
+    for (const player of team.players) {
+      let suitable = true;
+      if (options.position && player.position !== options.position) {
+        suitable = false;
+      }
+      if (options.captain && player.isCaptain === false) {
+        suitable = false;
+      }
+      if (suitable) {
+        let line = `  №${player.number} ${player.name} — ${player.position}`;
+        if (player.isCaptain) {
+          line = line + ' (капітан)';
+        }
+        console.log(line);
+      }
+    }
+  });
+
 program.parse();
