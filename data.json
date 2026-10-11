@@ -1,0 +1,67 @@
+{
+  "tournament": {
+    "name": "FIFA World Cup 2026",
+    "year": 2026,
+    "hostCountry": "USA"
+  },
+  "teams": [
+    {
+      "teamId": "t1",
+      "name": "Spain",
+      "players": [
+        { "playerId": "p1", "name": "Ferran Torres", "number": 7, "position": "forward", "isCaptain": false },
+        { "playerId": "p2", "name": "Nico Williams", "number": 11, "position": "forward", "isCaptain": false },
+        { "playerId": "p3", "name": "Rodri", "number": 16, "position": "midfielder", "isCaptain": true }
+      ]
+    },
+    {
+      "teamId": "t2",
+      "name": "Argentina",
+      "players": [
+        { "playerId": "p4", "name": "Emiliano Martinez", "number": 23, "position": "goalkeeper", "isCaptain": true },
+        { "playerId": "p5", "name": "Enzo Fernandez", "number": 24, "position": "midfielder", "isCaptain": false },
+        { "playerId": "p6", "name": "Lionel Messi", "number": 10, "position": "forward", "isCaptain": false },
+        { "playerId": "p7", "name": "Lautaro Martinez", "number": 22, "position": "forward", "isCaptain": false }
+      ]
+    },
+    {
+      "teamId": "t3",
+      "name": "France",
+      "players": [
+        { "playerId": "p8", "name": "Mike Maignan", "number": 16, "position": "goalkeeper", "isCaptain": false },
+        { "playerId": "p9", "name": "Aurelien Tchouameni", "number": 8, "position": "midfielder", "isCaptain": false },
+        { "playerId": "p10", "name": "Kylian Mbappe", "number": 10, "position": "forward", "isCaptain": true }
+      ]
+    }
+  ],
+  "matches": [
+    {
+      "match": "Semifinal 1",
+      "date": "15.07.2026",
+      "venue": "Stadium of Dallas",
+      "homeTeamId": "t1",
+      "awayTeamId": "t3",
+      "score": { "home": 2, "away": 1 },
+      "extraTime": null,
+      "events": [
+        { "type": "goal", "minute": 23, "playerId": "p2" },
+        { "type": "yellowcard", "minute": 45, "playerId": "p9" },
+        { "type": "goal", "minute": 60, "playerId": "p10" },
+        { "type": "goal", "minute": 78, "playerId": "p3" }
+      ]
+    },
+    {
+      "match": "Final",
+      "date": "19.07.2026",
+      "venue": "New Jersey Stadium",
+      "homeTeamId": "t1",
+      "awayTeamId": "t2",
+      "score": { "home": 1, "away": 0 },
+      "extraTime": 30,
+      "events": [
+        { "type": "redcard", "minute": 93, "playerId": "p5" },
+        { "type": "goal", "minute": 106, "playerId": "p1" }
+      ]
+    }
+  ]
+}
